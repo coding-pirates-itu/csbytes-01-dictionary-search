@@ -8,19 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="Data\dansk.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\ukenglish.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\words_alpha.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <PackageReference Include="CommandLineParser" Version="2.9.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommandLineParser" Version="2.9.1" />
+    <ProjectReference Include="..\SearchLib\SearchLib.csproj" />
   </ItemGroup>
 
 </Project>

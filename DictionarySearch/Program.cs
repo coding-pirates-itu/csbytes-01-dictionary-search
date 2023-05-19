@@ -1,28 +1,12 @@
-﻿using System.Text;
-using System.Text.RegularExpressions;
-using CommandLine;
+﻿using CommandLine;
 using DictionarySearch;
-
+using SearchLib;
 
 var opt = Parser.Default.ParseArguments<AppOptions>(args);
 if (opt.Errors.Any()) return;
 
-var words = File.ReadAllLines($"Data/{opt.Value.Language}.txt", Encoding.Latin1).Where(w => !string.IsNullOrWhiteSpace(w)).ToList();
-
-var rx = MaskToRegex(opt.Value.Pattern ?? ".+");
-
+var words = new WordSearcher().Search(opt.Value.Language ?? "", opt.Value.MinLength, opt.Value.MaxLength, opt.Value.Pattern);
 foreach (var word in words)
 {
-    if (word.Length < opt.Value.MinLength) continue;
-    if (word.Length > opt.Value.MaxLength) continue;
-    if (! rx.Match(word).Success) continue;
-
     Console.WriteLine(word);
-}
-
-
-static Regex MaskToRegex(string mask)
-{
-    var rx = mask.Replace("*", ".*");
-    return new Regex($"^{rx}$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 }
