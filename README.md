@@ -1,2 +1,6 @@
-# csbytes-01-dictionary-search
-C# bytes for Coding Pirates; byte 1 - search words in a dictionary
+# C# bytes for Coding Pirates
+
+## Byte 1: search words in a dictionary
+
+The large English dictionary is taken from https://github.com/dwyl/english-words/blob/master/words_alpha.txt
+Other dictionaries - from http://www.gwicks.net/dictionaries.htm

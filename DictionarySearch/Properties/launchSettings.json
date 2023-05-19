@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DictionarySearch": {
+      "commandName": "Project",
+      "commandLineArgs": "-n 5 -x 6 -p \"go*v*\""
+    }
+  }
+}
