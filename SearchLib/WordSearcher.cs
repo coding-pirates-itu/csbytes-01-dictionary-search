@@ -6,6 +6,20 @@ namespace SearchLib;
 
 public class WordSearcher
 {
+    public IReadOnlyCollection<string> GetDictionaries()
+    {
+        return Directory.GetFiles("Data").Select(f => Path.GetFileNameWithoutExtension(f)).ToList();
+    }
+
+
+    /// <summary>
+    /// Search for a word according to the pattern.
+    /// </summary>
+    /// <param name="language"></param>
+    /// <param name="minLength"></param>
+    /// <param name="maxLength"></param>
+    /// <param name="pattern"></param>
+    /// <returns></returns>
     public IReadOnlyCollection<string> Search(string language, uint minLength, uint maxLength, string? pattern)
     {
         var res = new List<string>();
@@ -16,7 +30,7 @@ public class WordSearcher
         foreach (var word in words)
         {
             if (word.Length < minLength) continue;
-            if (word.Length > maxLength) continue;
+            if (maxLength > 0 && word.Length > maxLength) continue;
             if (!rx.Match(word).Success) continue;
 
             res.Add(word);

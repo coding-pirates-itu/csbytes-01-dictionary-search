@@ -30,14 +30,31 @@ IEnumerable<string> ProcessCommand(string cmd)
 {
     if (cmd == "?") return CreateHelp();
 
-    if (cmd.Contains(":"))
+    if (cmd.StartsWith(":"))
     {
-        var cmdSplit = cmd.Split(':');
+        var cmdSplit = cmd[1..].Split(' ', 2);
+
         switch (cmdSplit[0]) {
-            case "l": lang = cmdSplit[1]; return new[] { $"Language set to '{lang}'" };
-            case "n": minLength = uint.Parse(cmdSplit[1]); return new[] { $"Min length set to {minLength}" };
-            case "x": maxLength = uint.Parse(cmdSplit[1]); return new[] { $"Max length set to {maxLength}" };
-            case "q": exit = true; return new[] { "Exiting." };
+            case "l":
+            case "lang":
+                if (cmdSplit.Length == 1) return ws.GetDictionaries();
+                lang = cmdSplit[1];
+                return new[] { $"Language set to '{lang}'" };
+
+            case "n":
+            case "min":
+                minLength = uint.Parse(cmdSplit[1]);
+                return new[] { $"Min length set to {minLength}" };
+
+            case "x":
+            case "max":
+                maxLength = uint.Parse(cmdSplit[1]);
+                return new[] { $"Max length set to {maxLength}" };
+
+            case "q":
+            case "quit":
+                exit = true; return new[] { "Exiting." };
+
             default: return CreateHelp();
         }
     }
@@ -54,6 +71,6 @@ IEnumerable<string> CreateHelp()
         $"  Language (l): {lang}",
         $"  Min word length (n): {minLength}",
         $"  Max word length (x): {maxLength}",
-        "Enter a command (letter:value, 'q:' for exit) or a pattern.",
+        "Enter a command (':' letter ' ' value, ':q' for exit) or a pattern.",
     };
 }
