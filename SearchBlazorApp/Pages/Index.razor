@@ -1,0 +1,67 @@
+﻿@page "/"
+@using SearchLib;
+
+<PageTitle>Dictionary search</PageTitle>
+
+<h1>Search for a word</h1>
+
+<form class="row">
+    <div class="col-2">
+        <label class="form-label" for="inputLang">Language</label>
+        <select class="form-control" id="inputLang" @bind="mLang" @bind:after="StartSearch">
+            @foreach (var lang in mWs.GetDictionaries())
+            {
+                <option value="@lang">@lang</option>
+            }
+        </select>
+    </div>
+
+    <div class="col-2">
+        <label class="form-label" for="inputMinLength">Min length</label>
+        <select class="form-control" id="inputMinLength" @bind="mMinLength" @bind:after="StartSearch">
+            @for (var len = 1; len <= 20; len++)
+            {
+                <option value="@len">@len</option>
+            }
+        </select>
+    </div>
+
+    <div class="col-2">
+        <label class="form-label" for="inputMaxLength">Max length</label>
+        <select class="form-control" id="inputMaxLength" @bind="mMaxLength" @bind:after="StartSearch">
+            @for (var len = 0; len <= 20; len++)
+            {
+                <option value="@len">@len</option>
+            }
+        </select>
+    </div>
+
+    <div class="col">
+        <label class="form-label" for="inputPattern">Pattern</label>
+        <input class="form-control" id="inputPattern" @bind="mPattern" @bind:after="StartSearch" />
+    </div>
+</form>
+
+<hr/>
+
+<p>Found @(mResults.Count) words</p>
+
+@foreach (var line in mResults)
+{
+    <p>@line</p>
+}
+
+
+@code {
+    private WordSearcher mWs = new();
+    private uint mMinLength = 5u;
+    private uint mMaxLength = 6u;
+    private string mLang = "ukenglish";
+    private string mPattern = "";
+    private IReadOnlyCollection<string> mResults = new List<string>();
+
+    private void StartSearch()
+    {
+        mResults = mWs.Search(mLang, mMinLength, mMaxLength, mPattern);
+    }
+}
