@@ -28,7 +28,7 @@ public class WordSearcher
 
     private static Regex MaskToRegex(string mask)
     {
-        var rx = mask.Replace("*", ".*");
+        var rx = mask.Replace("-", ".").Replace("*", ".*");
         return new Regex($"^{rx}$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
     }
 }
