@@ -40,6 +40,11 @@
         <label class="form-label" for="inputPattern">Pattern</label>
         <input class="form-control" id="inputPattern" @bind="mPattern" @bind:after="StartSearch" />
     </div>
+
+    <div class="col-2">
+        <label class="form-label" for="inputAllOf">All of</label>
+        <input class="form-control" id="inputAllOf" @bind="mAllOf" @bind:after="StartSearch" />
+    </div>
 </form>
 
 <hr/>
@@ -58,10 +63,17 @@
     private uint mMaxLength = 6u;
     private string mLang = "ukenglish";
     private string mPattern = "";
+    private string mAllOf = "";
     private IReadOnlyCollection<string> mResults = new List<string>();
 
     private void StartSearch()
     {
-        mResults = mWs.Search(mLang, mMinLength, mMaxLength, mPattern);
+        if (string.IsNullOrEmpty(mPattern) && string.IsNullOrEmpty(mAllOf)) 
+        {
+            mResults = new List<string>();
+            return;
+        }
+
+        mResults = mWs.Search(mLang, mMinLength, mMaxLength, mPattern, mAllOf);
     }
 }
